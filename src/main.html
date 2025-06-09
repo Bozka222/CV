@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jan Boch — Python Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --fg: #22223b;
+      --accent: #2b4a6f;
+      --border: #e5e7eb;
+      --muted: #888;
+      --link: #2563eb;
+      --link-hover: #1e293b;
+      --section-bg: #fff;
+      --section-shadow: 0 2px 16px #e5e7eb;
+      --button-bg: #e0e7ef;
+      --button-hover: #2563eb;
+      --button-fg: #2b4a6f;
+      --button-hover-fg: #fff;
+      --top-btn-bg: #fff;
+      --top-btn-fg: #2b4a6f;
+      --top-btn-hover: #2563eb;
+      --top-btn-hover-fg: #fff;
+    }
+    html, body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Fira Mono', 'Consolas', monospace;
+      font-size: 20px;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .header-main {
+      width: 100vw;
+      padding-top: 48px;
+      padding-bottom: 8px;
+      text-align: center;
+    }
+    .name {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -1.5px;
+      margin-bottom: 0.2em;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 1.4em;
+    }
+    .nav-rows {
+      margin-bottom: 2em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3em;
+    }
+    .nav-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2em;
+    }
+    .nav-row a {
+      color: var(--link);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05em;
+      letter-spacing: 1px;
+      border-bottom: 2px solid transparent;
+      transition: border 0.15s, color 0.15s;
+      padding-bottom: 2px;
+    }
+    .nav-row a:hover, .nav-row a.active {
+      color: var(--link-hover);
+      border-bottom: 2px solid var(--link-hover);
+    }
+    main {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+    section {
+      background: var(--section-bg);
+      border-radius: 14px;
+      box-shadow: var(--section-shadow);
+      padding: 2.2em 2em;
+      margin: 0 0.5em;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .section-title {
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 1.05em;
+      letter-spacing: 1.5px;
+      margin-bottom: 0.7em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.2em;
+    }
+    ul, ol {
+      margin: 0;
+      padding-left: 1.5em;
+    }
+    li {
+      margin-bottom: 0.45em;
+      line-height: 1.55;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 0.97em;
+    }
+    a {
+      color: var(--link);
+      text-decoration: underline;
+      transition: color 0.15s;
+    }
+    a:hover {
+      color: var(--link-hover);
+      background: #f1f5f9;
+    }
+    .inline-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.1em;
+      margin-bottom: 0.7em;
+      padding-left: 0;
+      list-style: none;
+    }
+    .inline-list li {
+      margin-bottom: 0;
+    }
+    .contact-list {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+    .contact-list li {
+      margin-bottom: 0.2em;
+    }
+    .courses-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2em;
+    }
+    .course-window {
+      background: var(--section-bg);
+      border-radius: 14px;
+      box-shadow: var(--section-shadow);
+      padding: 1.5em 1em 1em 1em;
+      margin: 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0;
+    }
+    .course-link-btn {
+      display: inline-block;
+      background: var(--button-bg);
+      color: var(--button-fg);
+      font-weight: 700;
+      border-radius: 8px;
+      padding: 0.35em 1em;
+      text-decoration: none !important;
+      margin-bottom: 0.7em;
+      margin-top: 0.2em;
+      border: none;
+      transition: background 0.18s, color 0.18s;
+      font-size: 1em;
+      box-shadow: 0 1px 4px #e3e6ec;
+    }
+    .course-link-btn:hover {
+      background: var(--button-hover);
+      color: var(--button-hover-fg);
+    }
+    .course-window ul {
+      padding-left: 1.1em;
+      margin-bottom: 0;
+    }
+    .course-window li {
+      margin-bottom: 0.3em;
+      font-size: 0.97em;
+    }
+    /* Social bubbles at the bottom of the page (not fixed) */
+    .social-bar-bottom {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 36px;
+      margin: 64px 0 32px 0;
+      position: relative;
+    }
+    .social-bar-bottom .social-link {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border 0.2s;
+      box-shadow: 0 2px 8px #e3e6ec;
+      text-decoration: none;
+    }
+    .social-bar-bottom .social-link svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--accent);
+      transition: fill 0.2s;
+    }
+    .social-bar-bottom .social-link:hover {
+      background: var(--button-hover);
+      border-color: var(--button-hover);
+    }
+    .social-bar-bottom .social-link:hover svg {
+      fill: #fff;
+    }
+    /* Back to Top Button */
+    #topBtn {
+      display: none;
+      position: fixed;
+      right: 32px;
+      bottom: 100px;
+      z-index: 9999;
+      background: #fff;
+      color: #2b4a6f;
+      border: 2px solid #2b4a6f;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      font-size: 2rem;
+      cursor: pointer;
+      box-shadow: 0 2px 12px #bcd;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+      outline: none;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
+    #topBtn svg {
+      width: 28px;
+      height: 28px;
+      fill: #2b4a6f;
+      transition: fill 0.2s;
+    }
+    #topBtn:hover {
+      background: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+    }
+    #topBtn:hover svg {
+      fill: #fff;
+    }
+    @media (max-width: 700px) {
+      main { max-width: 99vw; }
+      section { padding: 1.2em 0.7em; }
+      .courses-col { gap: 1.5em; }
+      .course-window { padding: 1em 0.5em; }
+      .nav-row { gap: 0.8em; }
+      .social-bar-bottom { gap: 12px; margin: 32px 0 16px 0;}
+      .social-bar-bottom .social-link { width: 40px; height: 40px;}
+      .social-bar-bottom .social-link svg { width: 20px; height: 20px;}
+      #topBtn { right: 12px; bottom: 72px; width: 40px; height: 40px; font-size: 1.2rem;}
+      #topBtn svg { width: 20px; height: 20px;}
+    }
+    .about-list {
+      list-style: disc;
+      padding-left: 1.5em;
+      margin: 0;
+      color: #333;
+    }
+    .about-list li {
+      margin-bottom: 0.45em;
+      font-size: 1.02em;
+    }
+  </style>
+</head>
+<body>
+  <div class="header-main">
+    <div class="name">Jan Boch</div>
+    <div class="subtitle">Python Developer — Embedded Systems & AI Enthusiast</div>
+  </div>
+  <div class="nav-rows">
+    <div class="nav-row">
+      <a href="#about" class="active">About</a>
+      <a href="#work">Work Experience</a>
+      <a href="#skills">Expertise & Technical Skills</a>
+      <a href="#education">Education</a>
+    </div>
+    <div class="nav-row">
+      <a href="#courses">Courses</a>
+      <a href="#languages">Languages</a>
+      <a href="#hobbies">Hobbies</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+  <main>
+    <section id="about">
+      <div class="section-title">About</div>
+      <ul class="about-list">
+        <li>Aspiring professional Python developer with a passion for AI and Machine Learning.</li>
+        <li>Hands-on experience with modern Python frameworks, backend and embedded systems.</li>
+        <li>Enjoys building robust, maintainable software and learning new technologies.</li>
+        <li>Motivated by challenging problems and continuous self-improvement.</li>
+      </ul>
+    </section>
+    <section id="work">
+      <div class="section-title">Work Experience</div>
+      <p>
+        <strong>NXP Semiconductors</strong><br>
+        <span class="muted">1 rok 3 měsíce &middot; Na místě</span>
+      </p>
+      <ul>
+        <li>
+          <strong>Board Farm/Lab Infrastructure Junior Developer</strong><br>
+          <span class="muted">Na plný úvazek &middot; červenec 2024 – současnost &middot; 1 rok</span><br>
+          Brno, Jihomoravský, Česko
+        </li>
+        <li>
+          <strong>Board Farm/Lab Infrastructure Junior Developer</strong><br>
+          <span class="muted">Na částečný úvazek &middot; duben 2024 – červen 2024 &middot; 3 měsíce</span><br>
+          Brno-město, Jihomoravský, Česko
+        </li>
+      </ul>
+    </section>
+    <section id="skills">
+      <div class="section-title">Expertise & Technical Skills</div>
+      <ul>
+        <li>
+          <strong>Embedded & Backend Development:</strong>
+          <ul>
+            <li>Libraries for embedded devices</li>
+            <li>Server-client architecture</li>
+            <li>CLI applications</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Systems & Communication:</strong>
+          <ul>
+            <li>Linux</li>
+            <li>FastAPI</li>
+            <li>Communication protocols: HTTP, WebSockets</li>
+          </ul>
+        </li>
+        <li>
+          <strong>DevOps & Quality Assurance:</strong>
+          <ul>
+            <li>CI/CD pipelines with Jenkins</li>
+            <li>Code testing with unittest and pytest frameworks</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Documentation & Collaboration:</strong>
+          <ul>
+            <li>Documentation generator Sphinx</li>
+            <li>Git versioning with Bitbucket</li>
+            <li>Agile software development with JIRA</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+    <section id="education">
+      <div class="section-title">Education</div>
+      <ul>
+        <li>
+          <span class="muted">2022 – 2024</span><br>
+          Master’s in Cybernetics, Control and Measurement, Brno University of Technology
+        </li>
+        <li>
+          <span class="muted">2019 – 2022</span><br>
+          Bachelor’s in Automation and Measurement, Brno University of Technology
+        </li>
+      </ul>
+    </section>
+    <section id="courses">
+      <div class="section-title">Courses & Certifications</div>
+      <div class="courses-col">
+        <div class="course-window">
+          <a class="course-link-btn" href="https://www.udemy.com/course/100-days-of-code/" target="_blank" rel="noopener">
+            100 Days of Code – Python Development Course
+          </a>
+          <ul>
+            <li><strong>Python & Programming:</strong> Python, Python GUI, Tkinter, Desktop App Development</li>
+            <li><strong>Web Development:</strong> Flask, GUnicorn, WTForms, RESTful API, Backend Web Development</li>
+            <li><strong>Front-End & Web Design:</strong> HTML5, CSS 3, Bootstrap 4, Web Design, Front-End Web Development</li>
+            <li><strong>Databases:</strong> SQLite, PostgreSQL, Databases</li>
+            <li><strong>Data Science & Visualization:</strong> Pandas, NumPy, Matplotlib, Plotly, Seaborn, Scikit learn</li>
+            <li><strong>Web Scraping & Automation:</strong> Beautiful Soup, Selenium Web Driver, Web Scraping</li>
+            <li><strong>Authentication & Version Control:</strong> Authentication, Git, Github, Version Control</li>
+          </ul>
+        </div>
+        <div class="course-window">
+          <a class="course-link-btn" href="https://www.udemy.com/course/rest-api-flask-and-python/" target="_blank" rel="noopener">
+            REST APIs with Flask and Python in 2024
+          </a>
+          <ul>
+            <li><strong>Deployment & Containerization:</strong> Deployment, Docker, Docker Compose</li>
+            <li><strong>Web Frameworks & API Development:</strong> Flask, Flask-Smorest</li>
+            <li><strong>Authentication & Security:</strong> Authentication, Flask-JWT-Extended</li>
+            <li><strong>Database & ORM:</strong> Flask-SQLAlchemy, PostgreSQL</li>
+            <li><strong>Database Migrations:</strong> Database migrations, Alembic</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="languages">
+      <div class="section-title">Languages</div>
+      <ul>
+        <li>English <span class="muted">(C1, CAE)</span></li>
+        <li>German <span class="muted">(A2, Pre-intermediate)</span></li>
+      </ul>
+    </section>
+    <section id="hobbies">
+      <div class="section-title">Hobbies</div>
+      <ul>
+        <li>Traveling</li>
+        <li>Scout</li>
+        <li>Geopolitics</li>
+      </ul>
+    </section>
+    <section id="contact">
+      <div class="section-title">Contact</div>
+      <ul class="contact-list">
+        <li><strong>Phone:</strong> +420 725 796 980</li>
+        <li><strong>Email:</strong> <a href="mailto:bochjan8@gmail.com">bochjan8@gmail.com</a></li>
+        <li><strong>Personal Blog:</strong> <a href="https://personal-blog-7a5x.onrender.com/" target="_blank" rel="noopener">personal-blog-7a5x.onrender.com</a></li>
+      </ul>
+    </section>
+  </main>
+  <button id="topBtn" title="Back to top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="11" fill="none"/>
+      <polyline points="7 13 12 8 17 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="social-bar-bottom">
+    <a class="social-link" href="https://www.linkedin.com/in/jan-boch-45981b242/" target="_blank" title="LinkedIn">
+      <svg viewBox="0 0 24 24">
+        <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7h-3v-10h2.89v1.36h.04c.4-.75 1.38-1.54 2.84-1.54 3.04 0 3.6 2 3.6 4.59v5.59z"/>
+      </svg>
+    </a>
+    <a class="social-link" href="https://github.com/Bozka222" target="_blank" title="GitHub">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.757-1.333-1.757-1.089-.745.084-.729.084-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.834 2.809 1.304 3.495.997.108-.775.418-1.304.762-1.604-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .322.218.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+      </svg>
+    </a>
+    <a class="social-link" href="https://discord.com/users/bozka22" target="_blank" title="Discord">
+      <svg viewBox="0 0 245 240">
+        <g>
+          <path d="M104.4 104.8c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1.1-6.1-4.5-11.1-10.2-11.1zm36.2 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1s-4.5-11.1-10.2-11.1z"/>
+          <path d="M222.3 0H22.7C10.2 0 0 10.2 0 22.7v194.5c0 12.5 10.2 22.7 22.7 22.7h167.8l-7.9-27.5 19 17.7 18 16.6 31.9-225.1c0-12.5-10.2-22.7-22.7-22.7zM163.8 176.9s-5.3-6.3-9.7-11.9c19.2-5.4 26.5-17.4 26.5-17.4-6 4-11.7 6.8-16.8 8.7-7.3 3.1-14.3 5.1-21.2 6.3-14 2.6-26.8 1.9-37.8-.1-8.3-1.6-15.4-3.8-21.3-6.3-3.3-1.5-6.9-3.2-10.5-5.4-.4-.2-.8-.4-1.2-.7-.3-.2-.5-.3-.7-.5-3.2-1.8-5-3.1-5-3.1s7 11.7 25.5 17.4c-4.4 5.6-9.8 12.1-9.8 12.1-32.3-1-44.6-22.2-44.6-22.2 0-47 21-85.2 21-85.2 21-15.7 41-15.3 41-15.3l1.5 1.8c-26.3 7.6-38.4 19.1-38.4 19.1s3.2-1.8 8.6-4.2c15.6-6.8 27.9-8.7 33-9.1.8-.1 1.5-.2 2.3-.2 8.2-1.1 17.4-1.4 27.1-.3 12.7 1.4 26.4 5.1 40.4 12.6 0 0-11.5-10.9-36.5-18.5l2.1-2.3s20-.4 41 15.3c0 0 21 38.2 21 85.2 0 0-12.4 21.2-44.7 22.2z"/>
+        </g>
+      </svg>
+    </a>
+  </div>
+  <script>
+    // Section fade-in on scroll
+    function revealSections() {
+      document.querySelectorAll('section').forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 80) {
+          section.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealSections);
+    window.addEventListener('DOMContentLoaded', () => {
+      revealSections();
+      // Smooth nav highlight
+      const navLinks = document.querySelectorAll('.nav-row a');
+      function updateActiveNav() {
+        let fromTop = window.scrollY + 120;
+        let current = null;
+        document.querySelectorAll('main section').forEach(section => {
+          if (section.offsetTop <= fromTop) current = section;
+        });
+        navLinks.forEach(link => link.classList.remove('active'));
+        if (current) {
+          let active = document.querySelector('.nav-row a[href="#' + current.id + '"]');
+          if (active) active.classList.add('active');
+        }
+      }
+      window.addEventListener('scroll', updateActiveNav);
+      updateActiveNav();
+      // Smooth scroll for nav
+      document.querySelectorAll('.nav-row a').forEach(link => {
+        link.addEventListener('click', function(e) {
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            window.scrollTo({ top: target.offsetTop - 32, behavior: 'smooth' });
+          }
+        });
+      });
+      // Back to Top button dynamic
+      const topBtn = document.getElementById('topBtn');
+      function toggleTopBtn() {
+        if (window.scrollY > 200) {
+          topBtn.style.display = 'flex';
+        } else {
+          topBtn.style.display = 'none';
+        }
+      }
+      window.addEventListener('scroll', toggleTopBtn);
+      topBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      toggleTopBtn();
+    });
+  </script>
+</body>
+</html>
