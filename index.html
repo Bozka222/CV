@@ -296,12 +296,23 @@
       margin-bottom: 0.45em;
       font-size: 1.02em;
     }
+    /* This targets links inside the company-logo div specifically */
+    .company-logo a:hover {
+      background: transparent !important;
+      transform: scale(1.08); /* Optional: keep the slight zoom instead of a color change */
+    }
+
+    /* Ensure the image itself doesn't have a background change */
+    .logo-img:hover {
+      background: #fff; /* Or whatever your section background color is */
+    }
+
   </style>
 </head>
 <body>
   <div class="header-main">
     <div class="name">Jan Boch</div>
-    <div class="subtitle">Backend Python Developer — Embedded Systems & AI Enthusiast</div>
+    <div class="subtitle">Backend Python Developer — System Architecture & Scalable APIs</div>
   </div>
   <div class="nav-rows">
     <div class="nav-row">
@@ -333,7 +344,9 @@
 
       <div class="experience-container" style="display: flex; gap: 15px; margin-bottom: 25px;">
         <div class="company-logo">
-          <img src="img/heureka-logo.png" alt="Heureka Group" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px;">
+          <a href="https://heureka.group/cz-en/" target="_blank">
+            <img src="img/heureka-logo.png" alt="Heureka Group" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px;">
+          </a>
         </div>
         <div class="experience-details">
           <p style="margin: 0;">
@@ -352,7 +365,9 @@
 
       <div class="experience-container" style="display: flex; gap: 15px; margin-bottom: 25px;">
         <div class="company-logo">
-          <img src="img/NXP-logo.png" alt="NXP Semiconductors" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px;">
+          <a href="https://www.nxp.com/" target="_blank">
+            <img src="img/NXP-logo.png" alt="NXP Semiconductors" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px;">
+          </a>
         </div>
         <div class="experience-details">
           <p style="margin: 0;">
@@ -418,7 +433,9 @@
 
       <div class="experience-container" style="display: flex; gap: 15px; margin-bottom: 25px;">
         <div class="company-logo">
-          <img src="img/VUT-logo.png" alt="BUT Logo" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px;">
+          <a href="https://www.vut.cz/en/" target="_blank">
+            <img src="img/VUT-logo.png" alt="BUT Logo" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px;">
+          </a>
         </div>
         <div class="experience-details">
           <p style="margin: 0;">
@@ -434,7 +451,9 @@
 
       <div class="experience-container" style="display: flex; gap: 15px;">
         <div class="company-logo">
-          <img src="img/VUT-logo.png" alt="BUT Logo" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px;">
+          <a href="https://www.vut.cz/en/" target="_blank">
+            <img src="img/VUT-logo.png" alt="BUT Logo" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px;">
+          </a>
         </div>
         <div class="experience-details">
           <p style="margin: 0;">

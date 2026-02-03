@@ -12,5 +12,4 @@ Feel free to connect or reach out if you'd like to collaborate or learn more.
 ---
 
 📫 **Contact:**  
-📧 bochjan8@gmail.com  
-🌐 [Personal Blog](https://personalblog-iotn.onrender.com/)
+📧 bochjan8@gmail.com
